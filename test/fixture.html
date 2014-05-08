@@ -1,0 +1,65 @@
+<div id="root"
+	data-arch
+
+	data-arch-require-a="/path-to-module-a"
+	data-arch-require-b="/path-to-module-b"
+	data-arch-require-c="/path-to-module-c"
+
+
+	data-arch-a="root-a"
+
+	data-arch-b
+	data-arch-b-opt1="root-b-v1"
+	data-arch-b-opt2="root-b-v2"
+	data-arch-b-opt3="root-b-v3"
+>
+
+	<div id="branch-1"
+		data-arch
+
+		data-arch-a="branch-1-a"
+
+		data-arch-b
+		data-arch-b-opt1="branch-1-b-v1"
+		data-arch-b-opt3="branch-1-b-v3"
+
+
+		data-arch-c
+		data-arch-c-opt1="branch-1-c-v1"
+		data-arch-c-opt2="branch-1-c-v2"
+
+	>
+
+		<div class="not-branch">
+			<!-- interference in branch connection -->
+
+			<div id="branch-1-1"
+				data-arch
+
+				data-arch-c
+			>
+				<!--
+					branch-1-1 will only c and pass no arguments
+					which means that all options will be inherited
+				-->
+			</div>
+		</div>
+	</div>
+
+	<div id="branch-2"
+		data-arch
+
+		data-arch-require-d="/path-to-module-d"
+
+		data-arch-a="branch-2-a"
+
+		data-arch-b
+		data-arch-b-opt2="branch-2-b-v2"
+
+		data-arch-d
+		data-arch-d-opt1="branch-2-d-v1"
+		data-arch-d-opt2="branch-2-d-v2"
+	></div>
+
+
+</div>

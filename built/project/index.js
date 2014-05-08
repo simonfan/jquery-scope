@@ -1,0 +1,5 @@
+//     jquery-scope
+//     (c) simonfan
+//     jquery-scope is licensed under the MIT terms.
+
+define(["require","exports","module","jquery","lodash","scope"],function(e,t,n){function u(e,t,n){var r,i=e.prefixedData(n),o=e.parent().closest(t);if(o.length>0){var a=u(o,t,n);r=a.create(i)}else{var f=n?"scope-"+n:"scope";r=e.data(f),r||(localscope=s(i),e.data(f,r))}return r}var r=e("jquery"),i=e("lodash"),s=e("scope"),o={prefix:"scope"};r.prototype.scope=function(t,n,r){}}),exports.get=function(t,n){return t.data(buildScopeName(n))},exports.set=function(t){var n,r;arguments.length===2?(n=buildScopeName(),r=arguments[1]):arguments.length===3?(n=buildScopeName(arguments[1]),r=arguments[2]):arguments.length===4&&(n=buildScopeName(arguments[1]),r={}[arguments[2]]=arguments[3]);var i=t.data(n);return _.extend(i,r),t},exports.inherit=function(t,n,r){var i=buildScopeName(r),s=exports.get(n,r);return t.data(i,_.create(s)),t},exports.create=function(t){var n,r,i;return arguments.length===2&&(r=buildScopeName()),t.data(buildScopeName(namespace),i),i};
