@@ -28,96 +28,111 @@
 			// properties to be checked
 			var properties = this.properties = {};
 
-			properties.require = ['archRequireA', 'archRequireB', 'archRequireC', 'archRequireD'];
-			properties.invoke = ['archA', 'archB', 'archC', 'archD'];
+			properties.modules = ['a', 'b', 'c', 'd'];
 
-			properties.optionsB = ['archBOpt1', 'archBOpt2', 'archBOpt3'];
-			properties.optionsC = ['archCOpt1', 'archCOpt2'];
-			properties.optionsD = ['archDOpt1', 'archDOpt2', 'archDOpt3'];
+			properties.options = ['option1', 'option2', 'option3'];
+
+
+			this.archData = {
+				el: 'eval:this',
+				option1: 'root-1',
+				option2: 'root-2',
+				option3: 'require:/path-to-bananas',
+				a: 'require:/path-to-module-a(el)',
+				b: 'require:/path-to-module-b({ el, dock:option1, option2 })',
+				c: 'require:/path-to-module-c({ el, option2 }, option3)'
+			};
 
 		});
 
 		it('root', function () {
 
 
+			var $root = this.$root;
 
-			var root = $('#root').scope('[data-arch]');
+			var root = $root.scope('[data-arch]', {
+				// meta-data options
 
-			root.evaluate(this.properties.require, { to: 'object'})
+				// the data prefix
+				prefix: 'arch',
+				// parser
+				parse: function (v) {
+					return 'parsed-' + v;
+				}
+			});
+
+			root.evaluate(this.properties.modules, { format: 'object'})
 				.should.eql({
-					archRequireA: '/path-to-module-a',
-					archRequireB: '/path-to-module-b',
-					archRequireC: '/path-to-module-c',
-					archRequireD: undefined
+					a: 'parsed-require:/path-to-module-a(el)',
+					b: 'parsed-require:/path-to-module-b({ el, dock:option1, option2 })',
+					c: 'parsed-require:/path-to-module-c({ el, option2 }, option3)',
+					d: undefined
 				});
 
-			root.evaluate(this.properties.invoke, { to: 'object' })
+			root.evaluate(this.properties.options, { format: 'object' })
 				.should.eql({
-					archA: 'root-a',
-					archB: '',
-					archC: undefined,
-					archD: undefined
-				});
-
-			root.evaluate(this.properties.optionsB, { to: 'object' })
-				.should.eql({
-					archBOpt1: 'root-b-v1',
-					archBOpt2: 'root-b-v2',
-					archBOpt3: 'root-b-v3'
+					option1: 'parsed-root-1',
+					option2: 'parsed-root-2',
+					option3: 'parsed-require:/path-to-bananas'
 				});
 
 		});
 
 		it('branch-1', function () {
 
-			var branch1 = $('#branch-1').scope('[data-arch]');
+			var branch1 = $('#branch-1').scope('[data-arch]', {
+				// meta-data options
 
-			branch1.evaluate(this.properties.require, { to: 'object' })
+				// the data prefix
+				prefix: 'arch',
+				// parser
+				parse: function (v) {
+					return 'parsed-' + v;
+				}
+			});
+
+			branch1.evaluate(this.properties.modules, { format: 'object' })
 				.should.eql({
-					archRequireA: '/path-to-module-a',
-					archRequireB: '/path-to-module-b',
-					archRequireC: '/path-to-module-c',
-					archRequireD: undefined
+					a: 'parsed-require:/path-to-module-a(el)',
+					b: 'parsed-require:/path-to-module-b({ el, dock:option1, option2 })',
+					c: 'parsed-require:/path-to-module-c({ el, option2 }, option3)',
+					d: 'parsed-require:/path-to-module-d(option1, { el, option2 }, option3)'
 				});
 
-			branch1.evaluate(this.properties.invoke, { to: 'object' })
+			branch1.evaluate(this.properties.options, { format: 'object' })
 				.should.eql({
-					archA: 'branch-1-a',
-					archB: '',
-					archC: '',
-					archD: undefined
-				});
-
-			branch1.evaluate(this.properties.optionsB, { to: 'object' })
-				.should.eql({
-					archBOpt1: 'branch-1-b-v1',		// own
-					archBOpt2: 'root-b-v2',			// inherited
-					archBOpt3: 'branch-1-b-v3'		// own
-				});
-
-			branch1.evaluate(this.properties.optionsC, { to: 'object' })
-				.should.eql({
-					archCOpt1: 'branch-1-c-v1',		// own
-					archCOpt2: 'branch-1-c-v2',		// own
+					option1: 'parsed-branch-1-1',
+					option2: 'parsed-root-2',
+					option3: 'parsed-require:/path-to-third-option',
 				});
 		});
 
 		it('branch-1-1', function () {
 
-			var branch11 = $('#branch-1-1').scope('[data-arch]');
+			var branch11 = $('#branch-1-1').scope('[data-arch]', {
+				// meta-data options
 
-			branch11.evaluate(this.properties.require, { to: 'object' })
+				// the data prefix
+				prefix: 'arch',
+				// parser
+				parse: function (v) {
+					return 'parsed-' + v;
+				}
+			});
+
+			branch11.evaluate(this.properties.modules, { format: 'object' })
 				.should.eql({
-					archRequireA: '/path-to-module-a',
-					archRequireB: '/path-to-module-b',
-					archRequireC: '/path-to-module-c',
-					archRequireD: undefined
+					a: 'parsed-require:/path-to-module-a(el)',
+					b: 'parsed-require:/path-to-module-b({ el, dock:option1, option2 })',
+					c: 'parsed-REMOVED',
+					d: 'parsed-require:/path-to-module-d(option1, { el, option2 }, option3)'
 				});
 
-			branch11.evaluate(this.properties.optionsC, { to: 'object' })
+			branch11.evaluate(this.properties.options, { format: 'object' })
 				.should.eql({
-					archCOpt1: 'branch-1-c-v1',		// own
-					archCOpt2: 'branch-1-c-v2',		// own
+					option1: 'parsed-branch-1-1',
+					option2: 'parsed-root-2',
+					option3: 'parsed-branch-1-1-3',
 				});
 		});
 	});

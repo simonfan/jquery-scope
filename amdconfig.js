@@ -14,7 +14,8 @@ require.config({
 		lodash: '../bower_components/lodash/dist/lodash.compat',
 		'jquery-prefixed-data': '../bower_components/jquery-prefixed-data/built/jquery-prefixed-data',
 		scope: '../bower_components/scope/built/scope',
-		subject: '../bower_components/subject/built/subject'
+		subject: '../bower_components/subject/built/subject',
+		'jquery-meta-data': '../bower_components/jquery-meta-data/built/jquery-meta-data'
 	},
 	shim: {
 		backbone: {

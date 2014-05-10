@@ -28,6 +28,46 @@
         }
     },
     "classes": {},
-    "classitems": [],
+    "classitems": [
+        {
+            "file": "src/index.js",
+            "line": 68,
+            "description": "Sets scope options",
+            "itemtype": "method",
+            "name": "scope",
+            "static": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "",
+            "module": "jquery-scope"
+        },
+        {
+            "file": "src/index.js",
+            "line": 79,
+            "description": "Evaluates scope.",
+            "itemtype": "method",
+            "name": "scope",
+            "params": [
+                {
+                    "name": "parentSelector",
+                    "description": "",
+                    "type": "Jq-selector String"
+                },
+                {
+                    "name": "metaDataOptions",
+                    "description": "",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "class": "",
+            "module": "jquery-scope"
+        }
+    ],
     "warnings": []
 }

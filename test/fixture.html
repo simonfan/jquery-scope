@@ -1,32 +1,24 @@
 <div id="root"
-	data-arch
+	data-arch-a="require:/path-to-module-a(el)"
+	data-arch-b="require:/path-to-module-b({ el, dock:option1, option2 })"
+	data-arch-c="require:/path-to-module-c({ el, option2 }, option3)"
 
-	data-arch-require-a="/path-to-module-a"
-	data-arch-require-b="/path-to-module-b"
-	data-arch-require-c="/path-to-module-c"
+	data-arch-option1="root-1"
+	data-arch-option2="root-2"
+	data-arch-option3="require:/path-to-bananas"
+	data-arch-el="(this)"
 
-
-	data-arch-a="root-a"
-
-	data-arch-b
-	data-arch-b-opt1="root-b-v1"
-	data-arch-b-opt2="root-b-v2"
-	data-arch-b-opt3="root-b-v3"
+	data-arch="a b c"
 >
 
 	<div id="branch-1"
-		data-arch
 
-		data-arch-a="branch-1-a"
+	data-arch-d="require:/path-to-module-d(option1, { el, option2 }, option3)"
 
-		data-arch-b
-		data-arch-b-opt1="branch-1-b-v1"
-		data-arch-b-opt3="branch-1-b-v3"
+	data-arch-option1="branch-1-1"
+	data-arch-option3="require:/path-to-third-option"
 
-
-		data-arch-c
-		data-arch-c-opt1="branch-1-c-v1"
-		data-arch-c-opt2="branch-1-c-v2"
+	data-arch="d"
 
 	>
 
@@ -36,7 +28,9 @@
 			<div id="branch-1-1"
 				data-arch
 
-				data-arch-c
+				data-arch-c="REMOVED"
+
+				data-arch-option3="branch-1-1-3"
 			>
 				<!--
 					branch-1-1 will only c and pass no arguments

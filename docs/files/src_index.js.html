@@ -101,159 +101,83 @@ define(function (require, exports, module) {
 
 	var $ = require(&#x27;jquery&#x27;),
 		_ = require(&#x27;lodash&#x27;),
-		scope = require(&#x27;scope&#x27;);
+		scope = require(&#x27;scope&#x27;),
+		jqPrefixedData = require(&#x27;jquery-meta-data&#x27;);
 
-	var options = {
-		prefix: &#x27;scope&#x27;,
+	var _opt = {
+		dataKey: &#x27;scope&#x27;,
 	};
 
+	function jqScope(el, parentSelector, metaDataOptions) {
 
-
-
-	function jqScope(el, parentSelector, namespace) {
-
+		// [0] variable to be returned.
 		var localScope;
 
-		// the local data
-		var localData = el.prefixedData(namespace);
+		// [1] get the local data
+		var localData = el.metaData(metaDataOptions);
 
-		// get the parent
+		// [2] get the parent
 		var parentEl = el.parent().closest(parentSelector);
 
 		if (parentEl.length &gt; 0) {
-			// there is a parent
+			// [2.1] there is a parent
 
-			var parentScope = jqScope(parentEl, parentSelector, namespace);
+			// [2.1.1] get or create (if absent) the parent scopr object.
+			var parentScope = jqScope(parentEl, parentSelector, metaDataOptions);
 
+			// [2.1.2] create sub scope from the parent
 			localScope = parentScope.create(localData);
 
+			// [2.1.3] store
+			el.data(_opt.dataKey, localScope);
+
 		} else {
+			// [2.2] no parent.
 			// this is root
 
-			var scopeId = namespace ? &#x27;scope-&#x27; + namespace : &#x27;scope&#x27;;
-
-			// check if there is a &#x27;scope-$namespace&#x27;
-			localScope = el.data(scopeId);
+			// [2.2.1] check if there is a value stored at _opt.dataKey
+			localScope = el.data(_opt.dataKey);
 
 			if (!localScope) {
 				// the local scope has not been created yet
 
 				// create
-				localscope = scope(localData);
+				localScope = scope(localData);
 
 				// and store
-				el.data(scopeId, localScope);
+				el.data(_opt.dataKey, localScope);
 			}
-
 		}
 
 		// return.
 		return localScope;
 	}
 
-
-
-	$.prototype.scope = function jqScope(parentSelector, namespace, data) {
-
+	/**
+	 * Sets scope options
+	 *
+	 * @method scope
+	 * @static
+	 * @param options {Object}
+	 */
+	$.scope = function jqScopeOptions(options) {
+		_.assign(_opt, options);
 	};
 
+	/**
+	 * Evaluates scope.
+	 *
+	 * @method scope
+	 * @param parentSelector {jq-selector String}
+	 * @param [metaDataOptions] {Object}
+	 */
+	$.prototype.scope = function (parentSelector, metaDataOptions) {
 
-//	$.prototype.scope = function jqueryScope(parent, namespace, )
+		metaDataOptions = metaDataOptions || {};
 
-/*
-
-// setter
-$el.scope({
-
-});
-
-$el.scope(&#x27;modules&#x27;, {
-
-});
-
-// inheriter
-$el.scope($parent, &#x27;modules&#x27;, {
-	modelView: &#x27;model-view&#x27;,
-});
-
-// getter
-$el.scope(&#x27;modules&#x27;);
-
-// setter
-$el.scope(&#x27;modules&#x27;, {
-
-})
-
-*/
-
-
-
-
-
-});
-
-
-
-
-
-	exports.get = function getScope(el, namespace) {
-		return el.data(buildScopeName(namespace));
-	}
-
-	exports.set = function setScopeData(el /* namespace, data/key, value */) {
-
-		var scopeName, data;
-
-		if (arguments.length === 2) {
-			// arguments = [el, data]
-			scopeName = buildScopeName();
-			data = arguments[1];
-
-		} else if (arguments.length === 3) {
-			// arguments = [el, namespace, data]
-			scopeName = buildScopeName(arguments[1]);
-			data = arguments[2];
-
-		} else if (arguments.length === 4) {
-			// arguments = [el, namespace, key, value]
-			scopeName = buildScopeName(arguments[1]);
-			data = ({})[arguments[2]] = arguments[3];
-		}
-
-		// get scope
-		var scope = el.data(scopeName);
-
-		// set data
-		_.extend(scope, data);
-
-		return el;
-	}
-
-
-	exports.inherit = function inheritScope(el, parent, namespace) {
-
-		var scopeName = buildScopeName(namespace),
-			// get the scope from the parent
-			parentScope = exports.get(parent, namespace);
-
-		el.data(scopeName, _.create(parentScope));
-
-		return el;
+		return jqScope(this, parentSelector, metaDataOptions);
 	};
-
-
-	exports.create = function createScope(el /* parent, namespace, data */) {
-		var parent, scopeName, data;
-
-		if (arguments.length === 2) {
-			// arguments = [el, data];
-			scopeName = buildScopeName();
-		}
-
-		el.data(buildScopeName(namespace), data);
-
-		return data;
-	}
+});
 
     </pre>
 </div>

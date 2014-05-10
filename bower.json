@@ -1,12 +1,13 @@
 {
   "name": "jquery-scope",
   "main": "built/jquery-scope.js",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Some module...",
   "dependencies": {
     "jquery": "*",
     "lodash": "~2.4.1",
-    "scope": "https://github.com/simonfan/scope.git"
+    "scope": "simonfan/scope#0.3.1",
+    "jquery-meta-data": "*"
   },
   "devDependencies": {
     "requirejs": "*",
@@ -14,5 +15,8 @@
     "underscore": "*",
     "jquery": "*",
     "qunit": "*"
+  },
+  "resolutions": {
+    "scope": "0.3.1"
   }
 }
